@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquid Glass - Coming Soon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- THEME PALETTE --- */
+        :root {
+            /* Palette Reference */
+            --p-dark-gray: #4A4A4A;
+            --p-light-gray: #CBCBCB;
+            --p-cream: #FFFFE3;
+            --p-blue-gray: #6D8196;
+
+            /* Default: DARK THEME */
+            --bg-base: #1a1a1a;
+            --bg-glow: var(--p-dark-gray);
+            --text-main: var(--p-cream);
+            --text-muted: var(--p-light-gray);
+            --accent: var(--p-blue-gray);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --orb-1: rgba(74, 74, 74, 0.4);
+            --orb-2: rgba(109, 129, 150, 0.15);
+            --transition-speed: 0.8s; /* Increased transition delay */
+        }
+
+        /* LIGHT THEME */
+        body.light-mode {
+            --bg-base: var(--p-cream);
+            --bg-glow: var(--p-cream);
+            --text-main: var(--p-dark-gray);
+            --text-muted: var(--p-blue-gray);
+            --accent: var(--p-blue-gray);
+            --glass-bg: rgba(255, 255, 255, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --orb-1: rgba(109, 129, 150, 0.2);
+            --orb-2: rgba(203, 203, 203, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color var(--transition-speed) ease, 
+                        background-image var(--transition-speed) ease, 
+                        color var(--transition-speed) ease, 
+                        border-color var(--transition-speed) ease;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            background-image: radial-gradient(circle at 50% 30%, var(--bg-glow) 0%, var(--bg-base) 80%);
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- LIQUID ORBS --- */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            pointer-events: none;
+        }
+        .orb-1 { width: 600px; height: 600px; background: var(--orb-1); top: -10%; left: -10%; }
+        .orb-2 { width: 500px; height: 500px; background: var(--orb-2); bottom: -10%; right: -5%; }
+
+        /* --- UI COMPONENTS --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 3rem;
+            z-index: 10;
+        }
+
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--accent); font-weight: 600; }
+        .logo span { color: var(--text-main); font-style: italic; }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-toggle svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+        main {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            z-index: 10;
+        }
+
+        .badge {
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            line-height: 1.1;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+        }
+
+        h1 em { font-style: italic; }
+
+        p.description { max-width: 500px; line-height: 1.6; margin-bottom: 3rem; }
+
+        .glass-input-wrapper {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(15px);
+            padding: 0.5rem;
+            border-radius: 50px;
+            display: flex;
+            width: 100%;
+            max-width: 480px;
+        }
+
+        input[type="email"] {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            padding: 0.8rem 1.5rem;
+            flex-grow: 1;
+            outline: none;
+        }
+
+        .notify-btn {
+            background: var(--accent);
+            color: var(--p-cream);
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        footer { padding: 2rem; display: flex; justify-content: center; gap: 2rem; z-index: 10; }
+        footer a { color: var(--text-muted); text-decoration: none; font-size: 0.75rem; text-transform: uppercase; }
+
+        /* Icon Visibility */
+        #icon-moon { display: none; }
+        body.light-mode #icon-sun { display: none; }
+        body.light-mode #icon-moon { display: block; }
+
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <header>
+        <div class="logo">Query<span>fie</span></div>
+        <button class="theme-toggle" id="themeBtn">
+            <svg id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg id="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+    </header>
+
+    <main>
+        <div class="badge">Coming Very Soon</div>
+        <h1>Something New<br><em>is Brewing</em></h1>
+        <p class="description">We're refining an experience that blends fluid aesthetics with crystalline precision. Join the waitlist for early access.</p>
+        <div class="glass-input-wrapper">
+            <input type="email" placeholder="name@example.com">
+            <button class="notify-btn" onclick="window.open('YOUR_GOOGLE_FORM_URL', '_blank')">Notify Me</button>
+        </div>
+    </main>
+
+    <footer>
+        <a href="#">Instagram</a>
+        <a href="#">Twitter</a>
+        <a href="#">Dribbble</a>
+    </footer>
+
+    <script>
+        const btn = document.getElementById('themeBtn');
+        btn.onclick = () => document.body.classList.toggle('light-mode');
+    </script>
+</body>
+</html>
